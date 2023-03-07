@@ -3,24 +3,36 @@ import instance from "./../../utils/api";
 // First, create the thunk
 export const fetch_news = createAsyncThunk(
 	"news/fetchnews",
-	async (_, thunkAPI) => {
+	async (obj, thunkAPI) => {
 		console.log(thunkAPI);
+		console.log("obj", obj);
+		const { selectedValue, searchTerm } = obj;
 		const response = await instance({
 			params: {
-				country: "us",
-				apiKey: "207353b345c8462a916556424c9eb730",
+				apiKey: "25b2258a87844f43bfcf11b9326eb8ad",
 				pageSize: 5,
 				page: 1,
+				[selectedValue]: searchTerm,
 			},
 		});
 		return response.data.articles;
 	},
 );
 
+export const fetch_param = createAsyncThunk(
+	"news/fetchparam",
+	async (search, thunkAPI) => {
+		return search;
+	},
+);
 // Then, handle actions in your reducers:
 const usersSlice = createSlice({
 	name: "news",
-	initialState: { entities: [], loading: false },
+	initialState: {
+		entities: [],
+		loading: false,
+		choices: "",
+	},
 	reducers: {
 		// standard reducer logic, with auto-generated action types per reducer
 	},
@@ -34,6 +46,10 @@ const usersSlice = createSlice({
 			// Add user to the state array
 			state.entities = [action.payload];
 			state.loading = false;
+		});
+
+		builder.addCase(fetch_param.fulfilled, (state, action) => {
+			state.choices = action.payload;
 		});
 	},
 });
