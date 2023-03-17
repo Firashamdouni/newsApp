@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
 	Button,
 	Card,
@@ -9,7 +10,7 @@ import {
 	Col,
 } from "reactstrap";
 const Article = (props) => {
-	const { author, description, publishedAt, title, urlToImage, source } =
+	const { author, description, publishedAt, title, urlToImage, source, url } =
 		props.article;
 	return (
 		<Col>
@@ -20,11 +21,7 @@ const Article = (props) => {
 					<CardSubtitle className="mb-2 text-muted" tag="h6">
 						{description}
 					</CardSubtitle>
-					<CardText>
-						Some quick example text to build on the card title and make up the
-						bulk of the card‘s content.
-					</CardText>
-					<Button>go to</Button>
+					<Link to={url}>go to</Link>
 				</CardBody>
 			</Card>
 		</Col>
