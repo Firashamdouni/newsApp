@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import instance from "./../../utils/api";
+import instance from "../../utils/api";
 // First, create the thunk
 export const fetch_news = createAsyncThunk(
 	"news/fetchnews",

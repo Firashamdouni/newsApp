@@ -1,10 +1,14 @@
-import React, { useDeferredValue, useState } from "react";
+import React, { useContext, useDeferredValue, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import { debounce } from "lodash";
 import { fetch_param } from "../../config/state/newsReducer";
+import { AuthContext } from "./../../auth";
+import { useNavigate } from "react-router-dom";
 const Search = ({ search, handlechange }) => {
 	const [searchTerm, setSearchTerm] = useState("");
+	const currentUser = useContext(AuthContext);
+	const navigate = useNavigate();
+
 	// const debouncedSearch = debounce(handlechange, 1000, { immediate: true });
 	const [selectedValue, setSelectedValue] = useState("q");
 	const dispatch = useDispatch();
@@ -19,6 +23,9 @@ const Search = ({ search, handlechange }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		if (!currentUser) {
+			navigate("/login");
+		}
 		const obj = { searchTerm: searchTerm, selectedValue: selectedValue };
 		dispatch(fetch_param(obj));
 	};
